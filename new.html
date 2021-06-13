@@ -1,0 +1,200 @@
+
+<html>
+  <head>
+      <title>IIT PATNA</title>
+      <link rel = "icon" href ="images/logo.png" class="rounded-circle" type = "image/x-icon">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+      <style>
+          .slideshow-container {
+              margin-top: 25px;
+              margin-left: 50px;
+          }
+          .mySlides {
+              display: none;
+          }
+          .prev, .next {
+              cursor: pointer;
+              position: absolute;
+              top: 50%;
+              width: auto;
+              margin-top: -22px;
+              padding: 16px;
+              color: white;
+              font-weight: bold;
+              font-size: 18px;
+              transition: 0.6s ease;
+              border-radius: 0 3px 3px 0;
+              user-select: none;
+          }
+          .next {
+              right: 0;
+              border-radius: 3px 0 0 3px;
+          }
+          .prev:hover, .next:hover {
+              background-color: rgba(0,0,0,0.8);
+          }
+          .text {
+              color: #f2f2f2;
+              font-size: 15px;
+              padding: 8px 12px;
+              position: absolute;
+              bottom: 8px;
+              width: 100%;
+              text-align: center;
+          }
+
+          /* Number text (1/3 etc) */
+          .numbertext {
+              color: #f2f2f2;
+              font-size: 12px;
+              padding: 8px 12px;
+              position: absolute;
+          }
+
+          /* The dots/bullets/indicators */
+          .dot {
+              cursor: pointer;
+              height: 8px;
+              width: 8px;
+              margin: 0 2px;
+              background-color: #bbb;
+              border-radius: 50%;
+              display: inline-block;
+              transition: background-color 0.6s ease;
+          }
+
+          .active, .dot:hover {
+              background-color: #717171;
+          }
+          #nav1 a:hover{
+              cursor: pointer;
+              background-color: #515157;
+              color: white;
+          }
+          #nav1,#nav2 a{
+              margin-left: 10px;
+          } 
+          #navlink{
+              margin-right: 30px;
+          }
+          #navlink:active{
+              background-color: #515157;
+              color: white;
+          }
+          #footericons:hover{
+              background-color: #515157;
+              color: #aeb1b4;
+          }
+          #footericons a{
+              font-size: 25px;
+          }
+          #footericons a:hover{
+              font-size: 28px;
+          }
+      </style>
+  </head>
+  <body>
+      <div>
+          <div class="row">
+              <div class="col-1"><img class="rounded-circle" src="images/logo.png" style="width: 150px; height: 150px; padding: 10px;"></div>
+              <div class="col-11 center"><h1 style="padding: 40px">Indian Institute of Technology, PATNA</h1></div>
+          </div>
+      </div>
+    <nav id="navbar" class="navbar navbar-expand-md bg-dark navbar-dark sticky-top" style="margin-top: -8px;">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul id="nav1" class="navbar-nav">
+                  <li class="nav-item">
+                      <a id="navlink" class="btn nav-link" href="/index.html"><i class="fas fa-home"></i> Home</a>
+                  </li>
+                    
+                  <li class="nav-item">
+                    <a id="navlink" class="btn nav-link" href="/new.html"><i class="fas fa-folder-open"></i> Data</a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="navlink" class="btn nav-link active" href="/about.html"><i class="fas fa-info"></i>Developers</a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="navlink" class="btn nav-link" href="https://www.mohfw.gov.in/" target="_blank"><i class="fas fa-atom"></i> COVID-19 Info</a>
+                  </li>    
+                </ul>
+            </div>  
+        </nav>
+      <div class="row">
+
+          <div class="col-3"></div>
+          <div class="col-6">
+              <form>
+                  <label for="covid"><h2>Are, You suffering with covid?:</h2></label>
+                  <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" value="yes" name="Label" required> Yes
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" value="no" name="Label" required> No
+                      </label>
+                    </div>
+                  <button type="button" class="btn btn-success" id="submit_data">Submit</button>
+              </form>
+          </div>
+          <div class="col-3"></div>
+
+      </div>
+
+      
+     
+
+      
+      <div class="jumbotron jumbotron-fluid bg-dark" style="margin-top: 25px;">
+          <center><h5 class="text-light">Developed by IIT PATNA</h5></center>
+      </div>
+      <script>
+          document.getElementById("submit_data").onclick = function () {
+              var ele = document.getElementsByName('Label');
+              
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked){
+                    if(ele[i].value=='yes'){
+                        location.href="/record_covid.html"
+                    }
+                    else{
+                        location.href="/record.html"
+                    }
+                }
+            }
+        };
+  </script>
+
+  <script>
+      var slideIndex = 0;
+      showSlides();
+
+      function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.dispślay = "block";  
+        dots[slideIndex-1].className += " active";
+        setTimeout(showSlides, 4000); // Change image every 2 seconds
+      }
+  </script>
+  </body>
+</html>
