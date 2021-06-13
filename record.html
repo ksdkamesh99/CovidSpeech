@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="UTF-8">
+    <link rel = "icon" href ="images/logo.png" class="rounded-circle" type = "image/x-icon">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+   
+    <title>Recording</title>
+
+    <style>
+	ol li:last-child {
+ visibility: visible;
+}​
+
+li {
+    display:none;
+}​
+a {
+background-color: white;
+color: black;
+padding: 5px;
+text-decoration: none;
+border: 1px solid black;
+}
+a:hover {
+background-color: black;
+color: white;
+
+}
+
+ol{
+	 display: flex;
+  justify-content: center;
+}
+      #nav1 a:hover{
+              cursor: pointer;
+              background-color: #515157;
+              color: white;
+          }
+          #nav1,#nav2 a{
+              margin-left: 10px;
+          } 
+          #navlink{
+              margin-right: 30px;
+          }
+          #navlink:active{
+              background-color: #515157;
+              color: white;
+          }
+          #footericons:hover{
+              background-color: #515157;
+              color: #aeb1b4;
+          }
+          #footericons a{
+              font-size: 25px;
+          }
+          #footericons a:hover{
+              font-size: 28px;
+          }
+    </style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel = "icon" href =
+"images/logo.png"
+		type = "image/x-icon"></head>
+  <body>
+    <div>
+      <div class="row">
+          <div class="col-1"><img class="rounded-circle" src="images/logo.png" style="width: 150px; height: 150px; padding: 10px;"></div>
+          <div class="col-11 center"><h1 style="padding: 40px">Indian Institute of Technology, PATNA</h1></div>
+      </div>
+  </div>
+  <nav id="navbar" class="navbar navbar-expand-md bg-dark navbar-dark sticky-top" style="margin-top: -8px;">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul id="nav1" class="navbar-nav">
+                  <li class="nav-item">
+                      <a id="navlink" class="btn nav-link" href="/index.html"><i class="fas fa-home"></i> Home</a>
+                  </li>
+                    
+                  <li class="nav-item">
+                    <a id="navlink" class="btn nav-link" href="/new.html"><i class="fas fa-folder-open"></i> Data</a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="navlink" class="btn nav-link active" href="/about.html"><i class="fas fa-info"></i>Developers</a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="navlink" class="btn nav-link" href="https://www.mohfw.gov.in/" target="_blank"><i class="fas fa-atom"></i> COVID-19 Info</a>
+                  </li>    
+                </ul>
+            </div>  
+        </nav>
+
+  <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <h3 class="text text-dark">Press the record button and read the following line!!!</h3>
+        <hr>
+        <center><h2>Once you replace negative thoughts with positive ones, you’ll start having positive results</h2></center>
+        <br><br>
+        <div class="row" id="controls" height=100%>
+          <button class="col btn btn-primary" style="margin: 20px;" id="recordButton">Record</button>
+          <button class="col btn btn-primary" style="margin: 20px;" id="pauseButton" disabled>Pause</button>
+          <button class="col btn btn-primary" style="margin: 20px;" id="stopButton" disabled>Stop</button>
+         </div><br>
+      </div>
+      <div class="col-3"></div>
+  </div>
+  <div style="justify-content:center">
+  	<ol id="recordingsList" style="list-style: none; justify-content: center;"></ol>
+	  </div>
+    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script>
+	
+        URL = window.URL || window.webkitURL;
+
+var gumStream; 						//stream from getUserMedia()
+var rec; 							//Recorder.js object
+var input; 							//MediaStreamAudioSourceNode we'll be recording
+
+// shim for AudioContext when it's not avb. 
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var audioContext //audio context to help us record
+
+var recordButton = document.getElementById("recordButton");
+var stopButton = document.getElementById("stopButton");
+var pauseButton = document.getElementById("pauseButton");
+
+//add events to those 2 buttons
+recordButton.addEventListener("click", startRecording);
+stopButton.addEventListener("click", stopRecording);
+pauseButton.addEventListener("click", pauseRecording);
+
+function startRecording() {
+	console.log("recordButton clicked");
+
+	/*
+		Simple constraints object, for more advanced audio features see
+		https://addpipe.com/blog/audio-constraints-getusermedia/
+	*/
+    
+    var constraints = { audio: true, video:false }
+
+ 	/*
+    	Disable the record button until we get a success or fail from getUserMedia() 
+	*/
+
+	recordButton.disabled = true;
+	stopButton.disabled = false;
+	pauseButton.disabled = false
+
+	/*
+    	We're using the standard promise based getUserMedia() 
+    	https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+	*/
+
+	navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+		console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+
+		/*
+			create an audio context after getUserMedia is called
+			sampleRate might change after getUserMedia is called, like it does on macOS when recording through AirPods
+			the sampleRate defaults to the one set in your OS for your playback device
+		*/
+		audioContext = new AudioContext();
+
+
+		/*  assign to gumStream for later use  */
+		gumStream = stream;
+		
+		/* use the stream */
+		input = audioContext.createMediaStreamSource(stream);
+
+		/* 
+			Create the Recorder object and configure to record mono sound (1 channel)
+			Recording 2 channels  will double the file size
+		*/
+		rec = new Recorder(input,{numChannels:1})
+
+		//start the recording process
+		rec.record()
+
+		console.log("Recording started");
+
+	}).catch(function(err) {
+	  	//enable the record button if getUserMedia() fails
+
+
+		console.log(err);
+    	recordButton.disabled = false;
+    	stopButton.disabled = true;
+    	pauseButton.disabled = true
+	});
+}
+
+function pauseRecording(){
+	console.log("pauseButton clicked rec.recording=",rec.recording );
+	if (rec.recording){
+		//pause
+		rec.stop();
+		pauseButton.innerHTML="Resume";
+	}else{
+		//resume
+		rec.record()
+		pauseButton.innerHTML="Pause";
+
+	}
+}
+
+function stopRecording() {
+	console.log("stopButton clicked");
+
+	//disable the stop button, enable the record too allow for new recordings
+	stopButton.disabled = true;
+	recordButton.disabled = false;
+	pauseButton.disabled = true;
+
+	//reset button just in case the recording is stopped while paused
+	pauseButton.innerHTML="Pause";
+	
+	//tell the recorder to stop the recording
+	rec.stop();
+
+	//stop microphone access
+	gumStream.getAudioTracks()[0].stop();
+
+	//create the wav blob and pass it on to createDownloadLink
+	rec.exportWAV(createDownloadLink);
+}
+
+function createDownloadLink(blob) {
+	
+	var url = URL.createObjectURL(blob);
+	var au = document.createElement('audio');
+	var li = document.createElement('li');
+	var link = document.createElement('a');
+	var button = document.createElement("BUTTON");
+
+	//name of .wav file to use during upload and download (without extendion)
+	var filename = new Date().toISOString();
+
+	//add controls to the <audio> element
+	au.controls = true;
+	au.src = url;
+
+	//save to disk link
+	link.href = url;
+	link.download = filename+".wav"; //download forces the browser to donwload the file using the  filename
+	link.innerHTML = "Save to disk";
+
+	button.href = url;
+	button.download =filename+".wav"; //download forces the browser to donwload the file using the  filename
+	button.innerHTML = "Save to disk by button";
+
+	//add the new audio element to li
+	li.appendChild(au);
+	
+	//upload link
+	var upload = document.createElement('a');
+	upload.href='#'
+	upload.innerHTML = "Upload";
+	upload.addEventListener("click", function(event){
+		  var url = "https://9tomcjmoa3.execute-api.ap-south-1.amazonaws.com/production/upload/negative";
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", url);
+
+			xhr.setRequestHeader("Content-Type", "audio/x-wav");
+			xhr.setRequestHeader("Origin", "*");
+			xhr.setRequestHeader("Access-Control-Request-Method", "POST");
+
+			xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) {
+				console.log(xhr.status);
+				console.log(xhr.responseText);
+			}};
+
+			xhr.send(blob);
+
+	})
+	li.appendChild(upload)//add the upload link to li
+	if(recordingsList.childNodes.length==1){
+		recordingsList.removeChild(recordingsList.childNodes[0]);
+	}
+	//add the li element to the ol
+	recordingsList.appendChild(li);
+}
+    </script>
+  </body>
+</html>
